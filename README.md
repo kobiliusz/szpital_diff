@@ -1,6 +1,6 @@
 # szpital_diff
 gdzie są świeżo zamknięte / otwarte szpitale?
-## zależności
+## wymagania
 - python i pip
 - tabula-py
 ```pip install tabula-py```
