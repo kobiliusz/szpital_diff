@@ -1,6 +1,7 @@
 import tabula, sys, re
 
 MAGIC_STRING = "1.1. Adres siedziby świadczeniodawcy: "
+MAGIC_STRING_SHORT = "1.1."
 PL_ALFABET = "[A-ZĄĘŻŹŁŃÓĆ]"
 
 # z internetow
@@ -11,8 +12,11 @@ def replace_multi(string, char):
     string = re.sub(pattern, char, string)
     return string
 
+def stripms(adres):
+    return adres.replace(MAGIC_STRING, '').replace(MAGIC_STRING_SHORT, '')
+
 def simplify_address(adres):
-    adres = adres.replace(MAGIC_STRING, '').upper()
+    adres = adres.replace(MAGIC_STRING, '').replace(MAGIC_STRING_SHORT, '').upper().strip()
     adres = replace_multi(adres, ' ')
     adres = replace_multi(adres, '\\.')
     adres = re.sub(PL_ALFABET + '+\\.','',adres)
@@ -46,11 +50,17 @@ def create_set(pdf_path):
     res_list = []
 
     for df in dfs:
-        if MAGIC_STRING in str(df.columns[0]):
-            res_list.append(simplify_address(df.columns[0]))
+        if str(df.columns[0]).startswith(MAGIC_STRING_SHORT):
+            if len(stripms(df.columns[0])) > 10:
+                res_list.append(simplify_address(df.columns[0]))
+            else:
+                res_list.append(simplify_address(df.columns[1]))
         for row in df.iterrows():
-            if MAGIC_STRING in str(row[1][0]):
-                res_list.append(simplify_address(row[1][0]))
+            if str(row[1][0]).startswith(MAGIC_STRING_SHORT):
+                if len(stripms(row[1][0])) > 10:
+                    res_list.append(simplify_address(row[1][0]))
+                else:
+                    res_list.append(simplify_address(row[1][1]))
 
     return set(res_list)
 
