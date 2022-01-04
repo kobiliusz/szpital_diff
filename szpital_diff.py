@@ -28,7 +28,9 @@ def simplify_address(adres):
     adres = adres.replace('-', ' ')
     adres = re.sub("\\s+", " ", adres)
     tokeny = adres.split(',')
-    tokeny.pop(1)
+    if len(tokeny) > 3 and re.match("[0-9]+", tokeny[1]):
+        tokeny.pop(1)
+    tokeny[1] = tokeny[1].strip()
     miasto = tokeny[0]
     colon = miasto.find(':')
     if colon > -1:
