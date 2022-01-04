@@ -2,7 +2,7 @@ import tabula, sys, re
 
 MAGIC_STRING = "1.1. Adres siedziby świadczeniodawcy: "
 MAGIC_STRING_SHORT = "1.1."
-PL_ALFABET = "[A-ZĄĘŻŹŁŃÓĆ]"
+PL_ALFABET = "[A-ZĄĘŻŹŁŃÓĆŚŻ]"
 
 # z internetow
 # Function to replace multiple occurrences
@@ -17,32 +17,33 @@ def stripms(adres):
 
 def simplify_address(adres):
     adres = adres.replace(MAGIC_STRING, '').replace(MAGIC_STRING_SHORT, '').upper().strip()
-    adres = replace_multi(adres, ' ')
+    adres = re.sub("\\s+", " ", adres)
     adres = replace_multi(adres, '\\.')
     adres = re.sub(PL_ALFABET + '+\\.','',adres)
     adres = adres.replace('\"', '')
     adres = adres.replace('.', '')
     adres = adres.replace('\\', ' ')
-    adres = replace_multi(adres, ' ')
+    adres = adres.replace(', ', ',')
+    adres = adres.replace('/', ' ')
+    adres = adres.replace('-', ' ')
+    adres = re.sub("\\s+", " ", adres)
     tokeny = adres.split(',')
     tokeny.pop(1)
     ulica = tokeny[2]
+    ulica = ulica.strip()
     ul_cz = ulica.split(' ')
 
     for index, czesc in enumerate(ul_cz):
         if not re.match(PL_ALFABET + "+", czesc):
             if index == 0:
                 ulica = ' '.join(ul_cz)
+                break
             else:
                 ulica = ' '.join(ul_cz[index-1:])
+                break
 
     tokeny[2] = ulica
     adres = ','.join(tokeny)
-    adres = adres.replace(', ', ',')
-    adres = adres.replace('/', ' ')
-    adres = adres.replace('-', ' ')
-    adres = adres.replace('\\', ' ')
-    adres = replace_multi(adres, ' ')
     return adres
 
 def create_set(pdf_path):
