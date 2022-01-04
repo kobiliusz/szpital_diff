@@ -72,24 +72,28 @@ def create_set(pdf_path):
 
     return set(res_list)
 
+def disp_results(szpitale1, szpitale2):
+    szpitale_removed = szpitale1.difference(szpitale2)
+    szpitale_added = szpitale2.difference(szpitale1)
+    bez_zmian = szpitale1.intersection(szpitale2)
 
-szpitale1 = create_set(sys.argv[1])
-szpitale2 = create_set(sys.argv[2])
+    print("Ubyło [", len(szpitale_removed), "]:")
+    for szpital in szpitale_removed:
+        print('[-] ', szpital)
 
-szpitale_removed = szpitale1.difference(szpitale2)
-szpitale_added = szpitale2.difference(szpitale1)
-bez_zmian = szpitale1.intersection(szpitale2)
+    print("----------------------------")
+    print("Przybyło [", len(szpitale_added), "]:")
+    for szpital in szpitale_added:
+        print('[+] ', szpital)
 
-print("Ubyło [", len(szpitale_removed), "]:")
-for szpital in szpitale_removed:
-    print('[-] ', szpital)
+    print("----------------------------")
+    print("Bez zmian [", len(bez_zmian), "]:")
+    for szpital in bez_zmian:
+        print('[o] ', szpital)
 
-print("----------------------------")
-print("Przybyło [", len(szpitale_added), "]:")
-for szpital in szpitale_added:
-    print('[+] ', szpital)
 
-print("----------------------------")
-print("Bez zmian [", len(bez_zmian), "]:")
-for szpital in bez_zmian:
-    print('[o] ', szpital)
+if __name__ == "__main__":
+    szpitale1 = create_set(sys.argv[1])
+    szpitale2 = create_set(sys.argv[2])
+    disp_results(szpitale1, szpitale2)
+
