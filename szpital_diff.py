@@ -50,13 +50,13 @@ def create_set(pdf_path):
     res_list = []
 
     for df in dfs:
-        if str(df.columns[0]).startswith(MAGIC_STRING_SHORT):
+        if str(df.columns[0]).strip().startswith(MAGIC_STRING_SHORT):
             if len(stripms(df.columns[0])) > 10:
                 res_list.append(simplify_address(df.columns[0]))
             else:
                 res_list.append(simplify_address(df.columns[1]))
         for row in df.iterrows():
-            if str(row[1][0]).startswith(MAGIC_STRING_SHORT):
+            if str(row[1][0]).strip().startswith(MAGIC_STRING_SHORT):
                 if len(stripms(row[1][0])) > 10:
                     res_list.append(simplify_address(row[1][0]))
                 else:
