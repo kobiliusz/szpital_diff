@@ -14,7 +14,7 @@ def replace_multi(string, char):
 def simplify_address(adres):
     adres = adres.replace(MAGIC_STRING, '').upper()
     adres = replace_multi(adres, ' ')
-    adres = replace_multi(adres, '\.')
+    adres = replace_multi(adres, '\\.')
     adres = re.sub(PL_ALFABET + '+\\.','',adres)
     adres = adres.replace('\"', '')
     adres = adres.replace('.', '')
