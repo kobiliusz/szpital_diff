@@ -71,6 +71,7 @@ szpitale2 = create_set(sys.argv[2])
 
 szpitale_removed = szpitale1.difference(szpitale2)
 szpitale_added = szpitale2.difference(szpitale1)
+bez_zmian = szpitale1.intersection(szpitale2)
 
 print("Ubyło [", len(szpitale_removed), "]:")
 for szpital in szpitale_removed:
@@ -80,3 +81,8 @@ print("----------------------------")
 print("Przybyło [", len(szpitale_added), "]:")
 for szpital in szpitale_added:
     print('[+] ', szpital)
+
+print("----------------------------")
+print("Bez zmian [", len(bez_zmian), "]:")
+for szpital in bez_zmian:
+    print('[o] ', szpital)
