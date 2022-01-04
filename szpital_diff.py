@@ -29,6 +29,11 @@ def simplify_address(adres):
     adres = re.sub("\\s+", " ", adres)
     tokeny = adres.split(',')
     tokeny.pop(1)
+    miasto = tokeny[0]
+    colon = miasto.find(':')
+    if colon > -1:
+        miasto = miasto[colon+1:].strip()
+        tokeny[0] = miasto
     ulica = tokeny[2]
     ulica = ulica.strip()
     ul_cz = ulica.split(' ')
