@@ -1,7 +1,7 @@
 import tabula, sys, re
 
-MAGIC_STRING = "1.1. Adres siedziby świadczeniodawcy: "
-MAGIC_STRING_SHORT = "1.1."
+MAGIC_STRING = "1.4. Adres zakładu leczniczego: "
+MAGIC_STRING_SHORT = "1.4."
 PL_ALFABET = "[A-ZĄĘŻŹŁŃÓĆŚŻ]"
 
 # z internetow
